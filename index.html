@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vibe Camp — 5 Days. Mallorca. Learn to Build with AI.</title>
+  <meta name="description" content="A 5-day residential AI building camp in Mallorca. No fluff, no slides. Leave with real products built with real AI tools. Next cohort: limited spots.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,700;0,800;1,700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --sun:        #F4813A;
+      --sun-light:  #F9A86E;
+      --sun-dark:   #C95F18;
+      --navy:       #0D1B2A;
+      --navy-mid:   #162436;
+      --navy-light: #1E3148;
+      --cream:      #FAF3E0;
+      --cream-mid:  #F0E6CC;
+      --gold:       #E8B84B;
+      --sky:        #4A9AB8;
+      --text:       #0D1B2A;
+      --text-mid:   #3A4F63;
+      --text-light: #6B839A;
+      --border:     rgba(255,255,255,0.1);
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Space Grotesk', -apple-system, sans-serif;
+      color: var(--text);
+      background: var(--cream);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3 {
+      font-family: 'Playfair Display', Georgia, serif;
+      line-height: 1.1;
+    }
+    h1 { font-size: clamp(2.6rem, 6vw, 5.2rem); }
+    h2 { font-size: clamp(2rem, 4vw, 3.2rem); }
+    h3 { font-size: clamp(1.1rem, 2vw, 1.35rem); }
+    p  { line-height: 1.78; }
+
+    .container { max-width: 1120px; margin: 0 auto; padding: 0 28px; }
+    .section    { padding: 100px 0; }
+
+    /* Animations */
+    .fu {
+      opacity: 0; transform: translateY(32px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .fu.visible { opacity: 1; transform: translateY(0); }
+    .fu.d1 { transition-delay: 0.1s; }
+    .fu.d2 { transition-delay: 0.2s; }
+    .fu.d3 { transition-delay: 0.3s; }
+    .fu.d4 { transition-delay: 0.4s; }
+    .fu.d5 { transition-delay: 0.5s; }
+
+    /* Eyebrow */
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 10px;
+      color: var(--sun); font-size: 0.72rem; font-weight: 600;
+      letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 24px;
+    }
+    .eyebrow::before {
+      content: ''; display: block;
+      width: 28px; height: 1px; background: var(--sun);
+    }
+    .eyebrow--center { justify-content: center; }
+    .eyebrow--center::before { display: none; }
+    .eyebrow--light { color: var(--sun-light); }
+    .eyebrow--light::before { background: var(--sun-light); }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 22px 28px;
+      display: flex; align-items: center; justify-content: space-between;
+      transition: background 0.35s, backdrop-filter 0.35s, box-shadow 0.35s;
+    }
+    nav.scrolled {
+      background: rgba(13,27,42,0.95);
+      backdrop-filter: blur(16px);
+      box-shadow: 0 1px 0 rgba(244,129,58,0.15);
+    }
+    .nav-logo {
+      display: flex; align-items: center; gap: 10px;
+      text-decoration: none;
+    }
+    .nav-logo-mark {
+      width: 34px; height: 34px; border-radius: 8px;
+      background: linear-gradient(135deg, var(--sun), var(--sun-dark));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem;
+    }
+    .nav-logo-text {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.05rem; font-weight: 700; letter-spacing: -0.01em;
+      color: white;
+    }
+    .nav-right { display: flex; align-items: center; gap: 28px; }
+    .nav-link {
+      color: rgba(255,255,255,0.65); font-size: 0.82rem; font-weight: 500;
+      text-decoration: none; letter-spacing: 0.02em;
+      transition: color 0.2s;
+    }
+    .nav-link:hover { color: white; }
+    .nav-cta {
+      background: var(--sun); color: white;
+      padding: 10px 22px; border-radius: 6px; border: none;
+      font-size: 0.78rem; font-weight: 600; letter-spacing: 0.06em;
+      text-transform: uppercase; text-decoration: none;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .nav-cta:hover { background: var(--sun-light); transform: translateY(-1px); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh; position: relative;
+      display: flex; align-items: center; overflow: hidden;
+      background: url('images/hero.jpg') center 35% / cover no-repeat;
+      background-color: var(--navy);
+    }
+    .hero-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(
+        160deg,
+        rgba(13,27,42,0.78) 0%,
+        rgba(13,27,42,0.38) 40%,
+        rgba(13,27,42,0.72) 75%,
+        rgba(13,27,42,0.96) 100%
+      );
+    }
+    .hero-content {
+      position: relative; z-index: 2;
+      padding: 140px 28px 100px;
+      max-width: 1120px; margin: 0 auto; width: 100%;
+    }
+    .hero-tag {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(244,129,58,0.15); border: 1px solid rgba(244,129,58,0.35);
+      color: var(--sun-light); font-size: 0.72rem; font-weight: 600;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      padding: 7px 14px; border-radius: 100px; margin-bottom: 28px;
+    }
+    .hero-tag::before {
+      content: ''; width: 6px; height: 6px; border-radius: 50%;
+      background: var(--sun); flex-shrink: 0;
+      animation: blink 2s ease-in-out infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:1}50%{opacity:0.3} }
+    .hero h1 { color: white; max-width: 860px; margin-bottom: 28px; }
+    .hero h1 em { font-style: italic; color: var(--sun-light); }
+    .hero-sub {
+      color: rgba(255,255,255,0.65); font-size: clamp(1rem, 1.8vw, 1.2rem);
+      max-width: 520px; margin-bottom: 48px; font-weight: 400;
+    }
+    .hero-actions { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; margin-bottom: 80px; }
+    .btn-primary {
+      background: var(--sun); color: white;
+      padding: 16px 36px; border-radius: 8px; border: none;
+      font-size: 0.88rem; font-weight: 600; letter-spacing: 0.05em;
+      text-transform: uppercase; text-decoration: none; cursor: pointer;
+      display: inline-block; transition: background 0.2s, transform 0.15s;
+    }
+    .btn-primary:hover { background: var(--sun-light); transform: translateY(-2px); }
+    .btn-outline {
+      border: 1px solid rgba(255,255,255,0.3); color: rgba(255,255,255,0.8);
+      padding: 16px 36px; border-radius: 8px;
+      font-size: 0.88rem; font-weight: 500; text-decoration: none;
+      display: inline-block; transition: border-color 0.2s, color 0.2s;
+    }
+    .btn-outline:hover { border-color: white; color: white; }
+    .hero-stats { display: flex; gap: 56px; flex-wrap: wrap; }
+    .hero-stat-value {
+      display: block; font-family: 'Playfair Display', serif;
+      font-size: 2.2rem; color: var(--sun-light); line-height: 1;
+    }
+    .hero-stat-label {
+      font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase;
+      color: rgba(255,255,255,0.4); margin-top: 6px; display: block;
+    }
+
+    /* ── WHAT IS VIBE CODING ── */
+    .vibe-wrap {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;
+    }
+    .vibe-visual {
+      background: var(--navy);
+      border-radius: 16px; padding: 48px 40px;
+      color: white; position: relative; overflow: hidden;
+    }
+    .vibe-visual::before {
+      content: ''; position: absolute; top: -60px; right: -60px;
+      width: 200px; height: 200px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(244,129,58,0.2), transparent 70%);
+    }
+    .code-line {
+      font-family: 'Space Grotesk', monospace;
+      font-size: 0.82rem; color: rgba(255,255,255,0.55);
+      margin-bottom: 10px; position: relative;
+      padding-left: 16px;
+    }
+    .code-line.highlight { color: var(--sun-light); font-weight: 600; }
+    .code-line::before {
+      content: '›'; position: absolute; left: 0;
+      color: rgba(244,129,58,0.4);
+    }
+    .code-line.highlight::before { color: var(--sun); }
+    .divider-sun { width: 44px; height: 3px; background: var(--sun); margin: 24px 0; border-radius: 2px; }
+    .vibe-text p { color: var(--text-mid); margin-bottom: 18px; }
+    .vibe-text p:last-child { margin-bottom: 0; }
+
+    /* ── 5-DAY JOURNEY (ICEBERG) ── */
+    .journey-section { background: var(--navy); color: white; }
+    .journey-section h2 { color: white; }
+    .journey-section .eyebrow { color: var(--sun-light); }
+    .journey-section .eyebrow::before { background: var(--sun-light); }
+    .journey-intro { color: rgba(255,255,255,0.6); max-width: 600px; margin: 20px 0 64px; font-size: 1.05rem; }
+
+    .iceberg {
+      position: relative;
+      display: flex; flex-direction: column; gap: 3px;
+      max-width: 860px; margin: 0 auto;
+    }
+    .ice-day {
+      display: grid; grid-template-columns: 80px 1fr;
+      gap: 0; align-items: stretch;
+      transition: transform 0.2s;
+    }
+    .ice-day:hover { transform: translateX(6px); }
+    .ice-label {
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.65rem; font-weight: 700; letter-spacing: 0.15em;
+      text-transform: uppercase; color: rgba(255,255,255,0.45);
+      writing-mode: vertical-rl; text-orientation: mixed;
+      background: var(--navy-mid); border-right: 1px solid rgba(255,255,255,0.06);
+      padding: 20px 12px;
+    }
+    .ice-body {
+      padding: 28px 36px;
+      border-left: 3px solid transparent;
+      transition: border-color 0.2s;
+    }
+    .ice-day:hover .ice-body { border-left-color: var(--sun); }
+    .ice-day-1 .ice-body { background: rgba(255,255,255,0.06); }
+    .ice-day-2 .ice-body { background: rgba(255,255,255,0.05); }
+    .ice-day-3 .ice-body { background: rgba(20,40,65,0.9); }
+    .ice-day-4 .ice-body { background: rgba(15,30,50,0.95); }
+    .ice-day-5 .ice-body { background: rgba(10,20,35,1); }
+    .ice-day-1 .ice-label { background: rgba(255,255,255,0.07); }
+    .ice-day-2 .ice-label { background: rgba(255,255,255,0.055); }
+    .ice-day-3 .ice-label { background: rgba(20,40,65,0.8); }
+    .ice-day-4 .ice-label { background: rgba(15,30,50,0.9); }
+    .ice-day-5 .ice-label { background: rgba(10,20,35,0.95); }
+    .ice-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(244,129,58,0.15); border: 1px solid rgba(244,129,58,0.25);
+      color: var(--sun-light); font-size: 0.65rem; font-weight: 700;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      padding: 3px 10px; border-radius: 100px; margin-bottom: 10px;
+    }
+    .ice-body h3 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.05rem; font-weight: 700; color: white; margin-bottom: 8px;
+    }
+    .ice-body p { font-size: 0.88rem; color: rgba(255,255,255,0.55); line-height: 1.65; }
+    .ice-tools {
+      display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px;
+    }
+    .ice-tool {
+      background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.1);
+      color: rgba(255,255,255,0.5); font-size: 0.7rem; font-weight: 500;
+      padding: 3px 10px; border-radius: 4px;
+    }
+    .waterline {
+      display: flex; align-items: center; gap: 16px;
+      margin: 4px 0; padding: 0 80px;
+    }
+    .waterline-rule { flex: 1; height: 1px; background: linear-gradient(90deg, transparent, rgba(74,154,184,0.6), transparent); }
+    .waterline-label {
+      font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--sky); font-weight: 600;
+    }
+
+    /* ── MALLORCA ── */
+    .mallorca-section { background: var(--navy-mid); color: white; }
+    .mallorca-section h2 { color: white; }
+    .mallorca-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 80px; align-items: center; margin-top: 56px;
+    }
+    .mallorca-photos {
+      display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: auto auto;
+      gap: 6px;
+    }
+    .mallorca-photo {
+      border-radius: 8px; overflow: hidden; background: var(--navy-light);
+      position: relative;
+    }
+    .mallorca-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .mallorca-photo.big { grid-column: 1 / 3; height: 280px; }
+    .mallorca-photo.small { height: 180px; }
+    .venue-tag {
+      position: absolute; bottom: 12px; left: 12px;
+      background: rgba(13,27,42,0.85); backdrop-filter: blur(8px);
+      color: rgba(255,255,255,0.75); font-size: 0.65rem;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      padding: 4px 10px; border-radius: 4px;
+    }
+    .mallorca-text p { color: rgba(255,255,255,0.62); margin-bottom: 20px; }
+    .mallorca-features { margin-top: 32px; display: flex; flex-direction: column; gap: 14px; }
+    .mallorca-feat {
+      display: flex; align-items: flex-start; gap: 12px;
+      color: rgba(255,255,255,0.7); font-size: 0.88rem;
+    }
+    .mallorca-feat-icon { color: var(--sun); flex-shrink: 0; margin-top: 2px; }
+
+    /* ── WHO IT'S FOR ── */
+    .avatars { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 56px; }
+    .avatar-card {
+      background: white; border: 1px solid var(--cream-mid);
+      border-radius: 16px; padding: 36px 32px;
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+    .avatar-card:hover { box-shadow: 0 12px 40px rgba(244,129,58,0.1); transform: translateY(-4px); }
+    .avatar-emoji { font-size: 2.4rem; margin-bottom: 20px; display: block; }
+    .avatar-label {
+      font-size: 0.65rem; font-weight: 700; letter-spacing: 0.18em;
+      text-transform: uppercase; color: var(--sun); margin-bottom: 10px;
+    }
+    .avatar-card h3 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.1rem; font-weight: 700; color: var(--text); margin-bottom: 14px;
+    }
+    .avatar-card p { font-size: 0.88rem; color: var(--text-mid); line-height: 1.7; }
+    .avatar-check { margin-top: 20px; display: flex; flex-direction: column; gap: 8px; }
+    .avatar-check-item {
+      display: flex; align-items: flex-start; gap: 8px;
+      font-size: 0.82rem; color: var(--text-mid);
+    }
+    .avatar-check-item::before { content: '✓'; color: var(--sun); font-weight: 700; flex-shrink: 0; }
+
+    /* ── INCLUDED ── */
+    .included-section { background: var(--navy); color: white; }
+    .included-section h2 { color: white; }
+    .included-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 16px; overflow: hidden; margin-top: 56px;
+    }
+    .included-item {
+      background: var(--navy); padding: 36px 32px;
+    }
+    .included-icon { font-size: 1.8rem; margin-bottom: 16px; display: block; }
+    .included-item h3 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.92rem; font-weight: 700; color: white; margin-bottom: 8px;
+    }
+    .included-item p { font-size: 0.84rem; color: rgba(255,255,255,0.5); line-height: 1.65; }
+
+    /* ── PRICING ── */
+    .pricing-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 56px; max-width: 780px; margin-left: auto; margin-right: auto; }
+    .price-card {
+      border-radius: 16px; padding: 40px 36px;
+      border: 1px solid var(--cream-mid);
+      background: white;
+      position: relative; overflow: hidden;
+    }
+    .price-card.featured {
+      background: var(--navy); border-color: var(--sun);
+      box-shadow: 0 0 0 1px var(--sun), 0 24px 60px rgba(244,129,58,0.15);
+    }
+    .price-badge {
+      position: absolute; top: 20px; right: 20px;
+      background: var(--sun); color: white;
+      font-size: 0.62rem; font-weight: 700; letter-spacing: 0.1em;
+      text-transform: uppercase; padding: 4px 10px; border-radius: 100px;
+    }
+    .price-tier { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-light); margin-bottom: 16px; }
+    .price-card.featured .price-tier { color: rgba(255,255,255,0.45); }
+    .price-amount {
+      font-family: 'Playfair Display', serif;
+      font-size: 3.2rem; color: var(--text); line-height: 1; margin-bottom: 6px;
+    }
+    .price-card.featured .price-amount { color: white; }
+    .price-per { font-size: 0.8rem; color: var(--text-light); margin-bottom: 28px; }
+    .price-card.featured .price-per { color: rgba(255,255,255,0.45); }
+    .price-list { list-style: none; display: flex; flex-direction: column; gap: 10px; margin-bottom: 32px; }
+    .price-list li {
+      display: flex; align-items: flex-start; gap: 10px;
+      font-size: 0.85rem; color: var(--text-mid);
+    }
+    .price-card.featured .price-list li { color: rgba(255,255,255,0.65); }
+    .price-list li::before { content: '—'; color: var(--sun); font-weight: 700; flex-shrink: 0; }
+    .price-cta {
+      display: block; text-align: center; padding: 14px;
+      border-radius: 8px; font-size: 0.82rem; font-weight: 600;
+      letter-spacing: 0.06em; text-transform: uppercase; text-decoration: none;
+      transition: all 0.2s;
+    }
+    .price-cta.outline {
+      border: 1px solid var(--cream-mid); color: var(--text-mid);
+    }
+    .price-cta.outline:hover { border-color: var(--sun); color: var(--sun); }
+    .price-cta.solid {
+      background: var(--sun); color: white;
+    }
+    .price-cta.solid:hover { background: var(--sun-light); }
+    .cohort-block {
+      max-width: 780px; margin: 48px auto 0;
+      background: var(--cream-mid); border-radius: 12px; padding: 28px 32px;
+      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px;
+    }
+    .cohort-dates { display: flex; gap: 40px; flex-wrap: wrap; }
+    .cohort-date-item { }
+    .cohort-date-label { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--text-light); margin-bottom: 4px; }
+    .cohort-date-val { font-weight: 700; font-size: 0.92rem; color: var(--text); }
+    .scarcity {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 0.78rem; font-weight: 600; color: var(--sun-dark);
+    }
+    .scarcity::before {
+      content: ''; width: 8px; height: 8px; border-radius: 50%;
+      background: var(--sun); flex-shrink: 0;
+      animation: blink 1.8s ease-in-out infinite;
+    }
+
+    /* ── HOSTS ── */
+    .hosts-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 56px; }
+    .host-card {
+      display: flex; gap: 24px; align-items: flex-start;
+      background: white; border: 1px solid var(--cream-mid);
+      border-radius: 16px; padding: 32px;
+    }
+    .host-avatar {
+      width: 64px; height: 64px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--sun), var(--navy));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.6rem; flex-shrink: 0;
+    }
+    .host-name { font-weight: 700; font-size: 1rem; color: var(--text); margin-bottom: 4px; }
+    .host-role { font-size: 0.72rem; color: var(--sun); font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 12px; }
+    .host-bio { font-size: 0.85rem; color: var(--text-mid); line-height: 1.7; }
+
+    /* ── APPLY ── */
+    .apply-section {
+      background: linear-gradient(160deg, var(--navy) 0%, var(--navy-mid) 100%);
+      color: white;
+    }
+    .apply-section h2 { color: white; }
+    .apply-wrap { max-width: 600px; margin: 0 auto; text-align: center; }
+    .apply-sub { color: rgba(255,255,255,0.55); margin: 20px 0 48px; font-size: 1.05rem; }
+    .apply-form { text-align: left; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .form-group { margin-bottom: 16px; }
+    .form-group label {
+      display: block; font-size: 0.75rem; font-weight: 600;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: rgba(255,255,255,0.5); margin-bottom: 8px;
+    }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%; padding: 14px 16px;
+      background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 8px; color: white; font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.9rem; outline: none;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .form-group input::placeholder,
+    .form-group textarea::placeholder { color: rgba(255,255,255,0.25); }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: var(--sun); background: rgba(244,129,58,0.05);
+    }
+    .form-group select option { background: var(--navy); }
+    .form-group textarea { resize: vertical; min-height: 100px; }
+    .form-submit {
+      width: 100%; padding: 16px; border: none; border-radius: 8px;
+      background: var(--sun); color: white; font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.88rem; font-weight: 600; letter-spacing: 0.08em;
+      text-transform: uppercase; cursor: pointer; margin-top: 8px;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .form-submit:hover { background: var(--sun-light); transform: translateY(-1px); }
+    .form-note { text-align: center; font-size: 0.75rem; color: rgba(255,255,255,0.3); margin-top: 14px; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--navy); border-top: 1px solid rgba(255,255,255,0.06);
+      padding: 56px 28px; text-align: center;
+    }
+    .footer-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem; color: white; margin-bottom: 12px;
+    }
+    .footer-logo em { font-style: italic; color: var(--sun-light); }
+    footer p { font-size: 0.8rem; color: rgba(255,255,255,0.3); margin-bottom: 6px; }
+    .footer-links { display: flex; justify-content: center; gap: 28px; margin-top: 20px; }
+    .footer-links a { font-size: 0.8rem; color: rgba(255,255,255,0.35); text-decoration: none; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--sun-light); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      .vibe-wrap, .mallorca-grid, .avatars,
+      .included-grid, .pricing-grid, .hosts-grid { grid-template-columns: 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+      .hero-stats { gap: 32px; }
+      .nav-link { display: none; }
+      .mallorca-photo.big { height: 220px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav id="nav">
+    <a href="#" class="nav-logo">
+      <div class="nav-logo-mark">🏕️</div>
+      <span class="nav-logo-text">Vibe Camp</span>
+    </a>
+    <div class="nav-right">
+      <a href="#journey" class="nav-link">The 5 Days</a>
+      <a href="#pricing" class="nav-link">Pricing</a>
+      <a href="#apply" class="nav-cta">Apply Now</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <div class="hero-tag fu">Next cohort · October 2026 · Mallorca</div>
+      <h1 class="fu d1">5 days. Mallorca.<br><em>Learn to build with AI.</em></h1>
+      <p class="hero-sub fu d2">Not a course. Not a conference. A residential camp where you stop watching tutorials and start shipping real things with AI tools.</p>
+      <div class="hero-actions fu d3">
+        <a href="#apply" class="btn-primary">Reserve your spot →</a>
+        <a href="#journey" class="btn-outline">See the 5-day journey</a>
+      </div>
+      <div class="hero-stats fu d4">
+        <div>
+          <span class="hero-stat-value">5</span>
+          <span class="hero-stat-label">Days</span>
+        </div>
+        <div>
+          <span class="hero-stat-value">20</span>
+          <span class="hero-stat-label">Spots per cohort</span>
+        </div>
+        <div>
+          <span class="hero-stat-value">0</span>
+          <span class="hero-stat-label">Prior experience needed</span>
+        </div>
+        <div>
+          <span class="hero-stat-value">∞</span>
+          <span class="hero-stat-label">Post-camp community</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHAT IS VIBE CODING -->
+  <section class="section" id="what">
+    <div class="container">
+      <div class="vibe-wrap">
+        <div class="fu">
+          <div class="eyebrow">What is Vibe Coding?</div>
+          <h2>You describe it.<br>AI builds it.</h2>
+          <div class="divider-sun"></div>
+          <div class="vibe-text">
+            <p>Vibe coding is the art of building software by talking to AI — describing what you want in plain English and guiding the output into something that actually works. It sounds like magic. It isn't. It's a skill.</p>
+            <p>The people who get good at it aren't necessarily developers. They're people who think clearly, communicate well, and have the patience to iterate. That's probably you.</p>
+            <p>In 5 days, you'll go from "I've heard of ChatGPT" to "I just shipped a working product." No CS degree required. No prior coding experience assumed.</p>
+          </div>
+        </div>
+        <div class="vibe-visual fu d2">
+          <p style="font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.3);margin-bottom:24px;">What you sound like by Day 5</p>
+          <div class="code-line">"Build me a landing page for..."</div>
+          <div class="code-line highlight">"Add a waitlist form that emails me when..."</div>
+          <div class="code-line">"Make the button only show up when..."</div>
+          <div class="code-line highlight">"Deploy this to a live URL so I can..."</div>
+          <div class="code-line">"Now make it an agent that automatically..."</div>
+          <br>
+          <p style="font-size:0.78rem;color:rgba(255,255,255,0.35);margin-top:8px;">These are real prompts. From people who'd never coded before. After 5 days.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5-DAY JOURNEY -->
+  <section class="section journey-section" id="journey">
+    <div class="container">
+      <div class="eyebrow eyebrow--light fu">The 5-Day Journey</div>
+      <h2 class="fu d1">You'll go deeper<br>every single day.</h2>
+      <p class="journey-intro fu d2">Most people only use the top 10% of what AI can do. Vibe Camp takes you all the way down.</p>
+
+      <div class="iceberg fu d3">
+
+        <!-- ABOVE WATERLINE -->
+        <div class="ice-day ice-day-1">
+          <div class="ice-label">Day 1</div>
+          <div class="ice-body">
+            <div class="ice-badge">Above the surface</div>
+            <h3>You Learn to Prompt Properly</h3>
+            <p>Most people write bad prompts and blame the AI. You'll learn the difference between a prompt that works and one that wastes your afternoon. Context, constraints, iteration — the actual craft of talking to a model.</p>
+            <div class="ice-tools">
+              <span class="ice-tool">ChatGPT</span>
+              <span class="ice-tool">Claude</span>
+              <span class="ice-tool">Gemini</span>
+              <span class="ice-tool">Prompt Engineering</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="ice-day ice-day-2">
+          <div class="ice-label">Day 2</div>
+          <div class="ice-body">
+            <div class="ice-badge">Getting warmer</div>
+            <h3>You Build Your First Product</h3>
+            <p>Hands on keyboards. You pick a real idea — a tool, a website, a small app — and build the first working version using AI coding assistants. By dinner, it's live on the internet.</p>
+            <div class="ice-tools">
+              <span class="ice-tool">Cursor</span>
+              <span class="ice-tool">Lovable</span>
+              <span class="ice-tool">Vercel</span>
+              <span class="ice-tool">GitHub</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="waterline">
+          <div class="waterline-rule"></div>
+          <div class="waterline-label">~ waterline — where most people stop ~</div>
+          <div class="waterline-rule"></div>
+        </div>
+
+        <div class="ice-day ice-day-3">
+          <div class="ice-label">Day 3</div>
+          <div class="ice-body">
+            <div class="ice-badge">Below the surface</div>
+            <h3>You Connect Real Data</h3>
+            <p>Your product gets a backend. Databases, APIs, user accounts, real-world integrations. You stop building demos and start building things people can actually use. This is where it gets interesting.</p>
+            <div class="ice-tools">
+              <span class="ice-tool">Supabase</span>
+              <span class="ice-tool">APIs</span>
+              <span class="ice-tool">Webhooks</span>
+              <span class="ice-tool">Stripe</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="ice-day ice-day-4">
+          <div class="ice-label">Day 4</div>
+          <div class="ice-body">
+            <div class="ice-badge">Deep water</div>
+            <h3>You Build an AI Agent</h3>
+            <p>Not just using AI — building with it. You'll wire together an agent that can take actions, make decisions, and run without you. Automations that would have taken a developer two weeks. Done in an afternoon.</p>
+            <div class="ice-tools">
+              <span class="ice-tool">n8n</span>
+              <span class="ice-tool">Claude API</span>
+              <span class="ice-tool">MCP</span>
+              <span class="ice-tool">Tool Calling</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="ice-day ice-day-5">
+          <div class="ice-label">Day 5</div>
+          <div class="ice-body">
+            <div class="ice-badge">🔥 Demo Day</div>
+            <h3>You Ship &amp; Present</h3>
+            <p>Every participant demos what they built. Not a slide deck — a live product. Investors, founders, and fellow builders in the room. Your week in Mallorca ends with something real to show the world.</p>
+            <div class="ice-tools">
+              <span class="ice-tool">Live Demo</span>
+              <span class="ice-tool">Founder Feedback</span>
+              <span class="ice-tool">Community Access</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- MALLORCA FACTOR -->
+  <section class="section mallorca-section" id="mallorca">
+    <div class="container">
+      <div class="mallorca-grid">
+        <div class="mallorca-photos fu">
+          <div class="mallorca-photo big">
+            <img src="images/venue.jpg" alt="Island Vibes, Mallorca" onerror="this.parentElement.style.background='linear-gradient(135deg,#1E3148,#0D1B2A)';this.style.display='none'">
+            <span class="venue-tag">Island Vibes · Mallorca</span>
+          </div>
+          <div class="mallorca-photo small">
+            <img src="images/pool.jpg" alt="The pool" onerror="this.parentElement.style.background='linear-gradient(135deg,#162436,#0D1B2A)';this.style.display='none'">
+            <span class="venue-tag">Pool</span>
+          </div>
+          <div class="mallorca-photo small">
+            <img src="images/food.jpg" alt="Food" onerror="this.parentElement.style.background='linear-gradient(135deg,#F4813A44,#0D1B2A)';this.style.display='none'">
+            <span class="venue-tag">Meals included</span>
+          </div>
+        </div>
+        <div class="fu d2">
+          <div class="eyebrow eyebrow--light">The Mallorca Factor</div>
+          <h2 style="color:white;">This isn't<br>a Zoom call.</h2>
+          <div class="divider-sun" style="margin-top:24px;"></div>
+          <div class="mallorca-text">
+            <p>Learning sticks when you're somewhere that makes you feel alive. A week in Mallorca with 19 other curious, ambitious people is a very different energy to a bedroom with headphones on.</p>
+            <p>We're based at Island Vibes — a stunning social hub with food, drinks, sun, and the kind of Mediterranean light that makes you want to build things. Sessions in the morning. Building in the afternoon. Dinners together in the evening.</p>
+          </div>
+          <div class="mallorca-features">
+            <div class="mallorca-feat"><span class="mallorca-feat-icon">☀️</span> Morning sessions, afternoons free to build</div>
+            <div class="mallorca-feat"><span class="mallorca-feat-icon">🍽️</span> All meals covered — proper Mallorcan food</div>
+            <div class="mallorca-feat"><span class="mallorca-feat-icon">🏊</span> Pool, sunset terrace, beach nearby</div>
+            <div class="mallorca-feat"><span class="mallorca-feat-icon">🤝</span> Small group — 20 people max, ever</div>
+            <div class="mallorca-feat"><span class="mallorca-feat-icon">✈️</span> Easy access from most European cities</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHO IT'S FOR -->
+  <section class="section" id="who">
+    <div class="container" style="text-align:center;">
+      <div class="eyebrow eyebrow--center fu">Who It's For</div>
+      <h2 class="fu d1">You'll recognise yourself<br>in one of these.</h2>
+      <div class="avatars">
+
+        <div class="avatar-card fu d1">
+          <span class="avatar-emoji">🚀</span>
+          <div class="avatar-label">The Hype Coder</div>
+          <h3>You've been playing with AI tools but want to go deeper</h3>
+          <p>You've built a few things with Cursor or Claude. You know there's more. You want to understand agents, APIs, and how to actually ship — not just prototype.</p>
+          <div class="avatar-check">
+            <div class="avatar-check-item">Already use AI daily</div>
+            <div class="avatar-check-item">Want to go beyond chat interfaces</div>
+            <div class="avatar-check-item">Ready to build something real</div>
+          </div>
+        </div>
+
+        <div class="avatar-card fu d2">
+          <span class="avatar-emoji">🧠</span>
+          <div class="avatar-label">The Non-Technical Founder</div>
+          <h3>You have ideas but no dev budget and no technical co-founder</h3>
+          <p>You've been waiting for the right moment to build. The tools now exist. You don't need to learn to code — you need to learn to direct AI. That's what we teach.</p>
+          <div class="avatar-check">
+            <div class="avatar-check-item">Business ideas but no tech skills</div>
+            <div class="avatar-check-item">Frustrated by dev costs and timelines</div>
+            <div class="avatar-check-item">Ready to bet on yourself</div>
+          </div>
+        </div>
+
+        <div class="avatar-card fu d3">
+          <span class="avatar-emoji">⚙️</span>
+          <div class="avatar-label">The Developer</div>
+          <h3>You want to unlock agents and build 10× faster</h3>
+          <p>You can code. But AI agents, MCP, autonomous workflows — you've been meaning to properly understand this layer. Five focused days is worth six months of half-read blog posts.</p>
+          <div class="avatar-check">
+            <div class="avatar-check-item">Already writes code professionally</div>
+            <div class="avatar-check-item">Wants to build autonomous agents</div>
+            <div class="avatar-check-item">Curious about the frontier</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- WHAT'S INCLUDED -->
+  <section class="section included-section" id="included">
+    <div class="container" style="text-align:center;">
+      <div class="eyebrow eyebrow--center eyebrow--light fu">What's Included</div>
+      <h2 class="fu d1" style="color:white;">Everything. Seriously.</h2>
+      <div class="included-grid fu d2">
+        <div class="included-item">
+          <span class="included-icon">🏡</span>
+          <h3>Accommodation</h3>
+          <p>5 nights at Island Vibes or partner accommodation nearby. Shared and private room options available.</p>
+        </div>
+        <div class="included-item">
+          <span class="included-icon">🍽️</span>
+          <h3>All Meals</h3>
+          <p>Breakfast, lunch, and dinner every day. Local Mallorcan food, eaten together. Coffee and snacks all day.</p>
+        </div>
+        <div class="included-item">
+          <span class="included-icon">💻</span>
+          <h3>All Sessions</h3>
+          <p>5 days of structured learning, workshops, and hands-on building time with facilitators available throughout.</p>
+        </div>
+        <div class="included-item">
+          <span class="included-icon">🛠️</span>
+          <h3>Tools & Licences</h3>
+          <p>Access to all AI tools used during camp — Cursor Pro, Claude, and others — for the duration of your stay.</p>
+        </div>
+        <div class="included-item">
+          <span class="included-icon">🎤</span>
+          <h3>Demo Day</h3>
+          <p>Present your build to founders, investors, and peers on the final evening. Real feedback, real connections.</p>
+        </div>
+        <div class="included-item">
+          <span class="included-icon">💬</span>
+          <h3>Post-Camp Community</h3>
+          <p>Lifetime access to the Vibe Camp Discord — alumni, resources, build-in-public accountability, and future cohort discounts.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section class="section" id="pricing">
+    <div class="container" style="text-align:center;">
+      <div class="eyebrow eyebrow--center fu">Pricing</div>
+      <h2 class="fu d1">One price.<br>Everything included.</h2>
+
+      <div class="pricing-grid fu d2">
+        <div class="price-card">
+          <div class="price-tier">Shared Room</div>
+          <div class="price-amount">€1,800</div>
+          <div class="price-per">per person, all inclusive</div>
+          <ul class="price-list">
+            <li>Shared twin room at Island Vibes</li>
+            <li>All meals &amp; refreshments</li>
+            <li>Full 5-day programme</li>
+            <li>Tools &amp; licences</li>
+            <li>Demo Day &amp; community access</li>
+          </ul>
+          <a href="#apply" class="price-cta outline">Apply — Shared</a>
+        </div>
+        <div class="price-card featured">
+          <div class="price-badge">Most Popular</div>
+          <div class="price-tier">Private Room</div>
+          <div class="price-amount">€2,200</div>
+          <div class="price-per">per person, all inclusive</div>
+          <ul class="price-list">
+            <li>Private en-suite room</li>
+            <li>All meals &amp; refreshments</li>
+            <li>Full 5-day programme</li>
+            <li>Tools &amp; licences</li>
+            <li>Demo Day &amp; community access</li>
+          </ul>
+          <a href="#apply" class="price-cta solid">Apply — Private</a>
+        </div>
+      </div>
+
+      <div class="cohort-block fu d3">
+        <div class="cohort-dates">
+          <div class="cohort-date-item">
+            <div class="cohort-date-label">Next Cohort</div>
+            <div class="cohort-date-val">October 2026 · Mallorca</div>
+          </div>
+          <div class="cohort-date-item">
+            <div class="cohort-date-label">Group Size</div>
+            <div class="cohort-date-val">Max 20 people</div>
+          </div>
+          <div class="cohort-date-item">
+            <div class="cohort-date-label">Applications</div>
+            <div class="cohort-date-val">Rolling — first come, first served</div>
+          </div>
+        </div>
+        <div class="scarcity">Spots filling — apply to hold yours</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOSTS -->
+  <section class="section" id="hosts" style="background:var(--cream-mid);">
+    <div class="container">
+      <div class="eyebrow fu">Your Hosts</div>
+      <h2 class="fu d1">People who've<br>actually done this.</h2>
+      <div class="hosts-grid fu d2">
+        <div class="host-card">
+          <div class="host-avatar">🫒</div>
+          <div>
+            <div class="host-name">Oliver</div>
+            <div class="host-role">Founder, Olive Tree</div>
+            <p class="host-bio">Built and scaled multiple businesses across Mallorca. Currently building AI-first products and communities from a finca in Pollença. Obsessed with the gap between what AI can do and what most people use it for.</p>
+          </div>
+        </div>
+        <div class="host-card">
+          <div class="host-avatar">🏕️</div>
+          <div>
+            <div class="host-name">The Vibe Camp Team</div>
+            <div class="host-role">Facilitators & Builders</div>
+            <p class="host-bio">Practitioners, not academics. Each facilitator is actively building with AI tools in their own work. Nobody here will give you a slide deck. They'll sit next to you and help you debug your actual project.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- APPLY -->
+  <section class="section apply-section" id="apply">
+    <div class="container">
+      <div class="apply-wrap">
+        <div class="eyebrow eyebrow--center eyebrow--light fu">Apply Now</div>
+        <h2 class="fu d1">Reserve your spot.</h2>
+        <p class="apply-sub fu d2">20 spots. One cohort. Tell us a little about yourself and we'll come back to you within 48 hours.</p>
+
+        <form class="apply-form fu d3" action="https://formsubmit.co/hello@olivetree.es" method="POST">
+          <input type="hidden" name="_subject" value="Vibe Camp Application">
+          <input type="hidden" name="_captcha" value="false">
+          <input type="hidden" name="_next" value="https://vibecamp.olivetree.es/thankyou.html">
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>First Name</label>
+              <input type="text" name="first_name" placeholder="Oliver" required>
+            </div>
+            <div class="form-group">
+              <label>Last Name</label>
+              <input type="text" name="last_name" placeholder="Smith" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" name="email" placeholder="you@example.com" required>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Room Preference</label>
+              <select name="room_preference" required>
+                <option value="" disabled selected>Select one</option>
+                <option>Shared room (€1,800)</option>
+                <option>Private room (€2,200)</option>
+                <option>No preference</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>I'd describe myself as</label>
+              <select name="profile" required>
+                <option value="" disabled selected>Select one</option>
+                <option>Non-technical — total beginner</option>
+                <option>Hype coder — some AI experience</option>
+                <option>Developer — professional coder</option>
+                <option>Founder / entrepreneur</option>
+                <option>Other</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>What would you build if you could? (optional)</label>
+            <textarea name="idea" placeholder="A tool that helps me... / An app for... / I've always wanted to..."></textarea>
+          </div>
+
+          <button type="submit" class="form-submit">Submit Application →</button>
+          <p class="form-note">No payment taken now. We'll confirm your spot by email within 48 hours.</p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo"><em>Vibe</em> Camp</div>
+    <p>A residential AI building camp in Mallorca.</p>
+    <p>Hosted at Island Vibes · Pollença · Mallorca</p>
+    <p style="margin-top:8px;">Questions? <a href="mailto:hello@olivetree.es" style="color:var(--sun-light);text-decoration:none;">hello@olivetree.es</a></p>
+    <div class="footer-links">
+      <a href="https://olivetree.es">Olive Tree</a>
+      <a href="#apply">Apply</a>
+      <a href="#journey">The 5 Days</a>
+    </div>
+  </footer>
+
+  <script>
+    // Nav scroll
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 60);
+    });
+
+    // Fade-up observer
+    const observer = new IntersectionObserver(
+      entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }),
+      { threshold: 0.12, rootMargin: '0px 0px -40px 0px' }
+    );
+    document.querySelectorAll('.fu').forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>
